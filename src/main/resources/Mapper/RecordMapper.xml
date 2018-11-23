@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	<mapper namespace="com.lin.ssm.dao.RecordDao">
+		<insert id="addRecord">
+			insert into auction_record values(record_seq.nextval,#{user_id},#{auction_id},sysdate,#{auction_price})
+		</insert>
+		
+		
+		<select id="getAllRecord" resultType="Retable">
+			select t1.auction_time,t1.auction_price,t2.user_name from 
+			(select * from  auction_record where 
+			auction_id = #{auction_id}) t1 , auction_user t2
+			where t1.user_id = t2.user_id 
+			order by auction_price desc
+		</select>
+		
+		
+		<select id="getCheck" resultType="com.baizhi.ssm.entity.Record">
+			select * from auction_record where user_id = #{uid} and auction_id = #{aid}
+		</select>
+		
+		<update id="updateRecordPrice">
+			update auction_record  set auction_price = #{price} where user_id=#{uid} and auction_id  = #{aid}
+		</update>
+		
+		<delete id="deleteRecord">
+			delete from auction_record where auction_id = #{id}
+		</delete>
+	</mapper>
+	
